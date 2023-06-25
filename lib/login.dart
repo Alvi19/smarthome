@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:aplikasi_iot/Register.dart';
 import 'package:aplikasi_iot/home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,6 +29,7 @@ class _LoginState extends State<Login> {
     var res = await Network().auth(data, '/login');
     var body = json.decode(res.body);
     // print(body);
+
     if (body['success']) {
       SharedPreferences localStorage;
       localStorage = await SharedPreferences.getInstance();
@@ -36,13 +38,7 @@ class _LoginState extends State<Login> {
 
       Navigator.of(context)
         ..pushReplacement(MaterialPageRoute(builder: ((context) => home())));
-      // Navigator.of(context)
-      //   ..pushReplacement(
-      //       MaterialPageRoute(builder: ((context) => DetailPage())));
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(builder:context) => const DetailPage(title: "gvg", desc: "juj");
-      // );
+
       print("sukses");
     } else {}
   }
@@ -84,13 +80,6 @@ class _LoginState extends State<Login> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // TextFormField(
-                            //     controller: _namacontroller,
-                            //     decoration: InputDecoration(
-                            //       labelText: 'Nama',
-                            //     ),
-                            //     validator: (value) =>
-                            //         value!.isEmpty ? "Perlu di isi" : null),
                             const SizedBox(height: 10),
                             TextFormField(
                                 controller: _emailcontroller,
@@ -109,14 +98,6 @@ class _LoginState extends State<Login> {
                                 validator: (value) =>
                                     value!.isEmpty ? "Perlu di isi" : null),
                             SizedBox(height: 10),
-                            // TextFormField(
-                            //     controller: _confirmpasswordcontroller,
-                            //     decoration: InputDecoration(
-                            //       labelText: 'konfirmasi Password',
-                            //     ),
-                            //     obscureText: true,
-                            //     validator: (value) =>
-                            //         value!.isEmpty ? "Perlu di isi" : null),
                             ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
@@ -125,6 +106,17 @@ class _LoginState extends State<Login> {
                                 // Kode untuk menangani submit form
                               },
                               child: Text('Login'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: ((context) =>
+                                            RegistrationPage())));
+                                // Kode untuk menangani submit form
+                              },
+                              child: Text('Register'),
                             ),
                           ],
                         )),

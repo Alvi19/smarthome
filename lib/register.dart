@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:aplikasi_iot/home.dart';
 import 'package:aplikasi_iot/login.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,7 +34,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
       // log(body);
       print(body);
-      if (body['success']) {
+
+      print(res.statusCode);
+      if (res.statusCode != 200) {
+      } else if (body['success']) {
         SharedPreferences localStorage;
 
         localStorage = await SharedPreferences.getInstance();
@@ -41,11 +45,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
         localStorage.setString('user', json.encode(body['data']['nama']));
 
         Navigator.of(context)
-          ..pushReplacement(MaterialPageRoute(builder: ((context) => Login())));
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder:context) => const DetailPage(title: "gvg", desc: "juj");
-        // );
+          ..pushReplacement(MaterialPageRoute(builder: ((context) => home())));
+
         print("sukses");
       } else {}
     }
@@ -128,15 +129,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               },
                               child: Text('Daftar'),
                             ),
-                            // ElevatedButton(
-                            //   onPressed: () {
-                            //     if (_formKey.currentState!.validate()) {
-                            //       _login();
-                            //     }
-                            //     // Kode untuk menangani submit form
-                            //   },
-                            //   child: Text('Login'),
-                            // ),
                           ],
                         )),
                   ],
