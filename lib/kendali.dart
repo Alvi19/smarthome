@@ -8,6 +8,12 @@ class Kendali extends StatefulWidget {
   _KendaliState createState() => _KendaliState();
 }
 
+// bool isSwitched = false;
+bool isSwitched1 = false;
+bool isSwitched2 = false;
+bool isSwitched3 = false;
+bool isSwitched4 = false;
+
 class _KendaliState extends State<Kendali> {
   @override
   Widget build(BuildContext context) {
@@ -30,7 +36,8 @@ class _KendaliState extends State<Kendali> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Card(
-                      color: Color(0xff3892FB),
+                      // color: Color(0xff3892FB),
+                      color: isSwitched1 ? Colors.blue : Colors.white70,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius:
@@ -41,24 +48,63 @@ class _KendaliState extends State<Kendali> {
                           padding: const EdgeInsets.all(50),
                           child: Column(
                             children: [
-                              Image.asset(
-                                'assets/images/energy.png',
-                                width: 50,
+                              AnimatedContainer(
+                                duration: Duration(milliseconds: 200),
+                                child: Icon(
+                                  Icons.light_sharp,
+                                  size: 50,
+                                  color:
+                                      isSwitched1 ? Colors.white : Colors.blue,
+                                ),
                               ),
                               Text(
                                 'Lampu',
                                 style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black87,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold),
-                              )
+                              ),
+                              Switch(
+                                value: isSwitched1,
+                                onChanged: (value) {
+                                  setState(() {
+                                    // isSwitched = value;
+                                    isSwitched1 = value;
+                                    isSwitched2 = false;
+                                    isSwitched3 = false;
+                                    isSwitched4 = false;
+                                  });
+                                },
+                                activeColor:
+                                    const Color.fromARGB(255, 72, 248, 78),
+                                inactiveThumbColor: Colors.lightBlue,
+                                inactiveTrackColor:
+                                    Colors.grey.withOpacity(0.50),
+                              ),
+                              if (isSwitched1)
+                                Text(
+                                  'ON',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              if (!isSwitched1)
+                                Text(
+                                  'OFF',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
                             ],
                           ),
                         ),
                       ),
                     ),
                     Card(
-                      color: Color(0xff3892FB),
+                      // color: Color(0xff3892FB),
+                      color: isSwitched2 ? Colors.blue : Color(0xff3892FB),
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius:
@@ -69,12 +115,9 @@ class _KendaliState extends State<Kendali> {
                           padding: const EdgeInsets.all(50),
                           child: Column(
                             children: [
-                              Image.asset(
-                                'assets/images/fan-1.png',
-                                width: 50,
-                              ),
-                              SizedBox(
-                                height: 8,
+                              Icon(
+                                Icons.ac_unit_rounded,
+                                size: 50,
                               ),
                               Text(
                                 'Kipas',
@@ -82,7 +125,40 @@ class _KendaliState extends State<Kendali> {
                                     color: Colors.white,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold),
-                              )
+                              ),
+                              Switch(
+                                value: isSwitched2,
+                                onChanged: (value) {
+                                  setState(() {
+                                    // isSwitched = value;
+                                    isSwitched1 = false;
+                                    isSwitched2 = value;
+                                    isSwitched3 = false;
+                                    isSwitched4 = false;
+                                  });
+                                },
+                                activeColor:
+                                    const Color.fromARGB(255, 72, 248, 78),
+                                inactiveThumbColor: Colors.white,
+                                inactiveTrackColor:
+                                    Colors.white.withOpacity(0.9),
+                              ),
+                              if (isSwitched2)
+                                Text(
+                                  'ON',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              if (!isSwitched2)
+                                Text(
+                                  'OFF',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
                             ],
                           ),
                         ),
@@ -97,7 +173,8 @@ class _KendaliState extends State<Kendali> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Card(
-                      color: Color(0xff3892FB),
+                      // color: Color(0xff3892FB),
+                      color: isSwitched3 ? Colors.blue : Color(0xff3892FB),
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius:
@@ -108,9 +185,9 @@ class _KendaliState extends State<Kendali> {
                           padding: const EdgeInsets.all(50),
                           child: Column(
                             children: [
-                              Image.asset(
-                                'assets/images/fan-1.png',
-                                width: 50,
+                              Icon(
+                                Icons.door_sliding_rounded,
+                                size: 50,
                               ),
                               Text(
                                 'Pintu',
@@ -118,14 +195,48 @@ class _KendaliState extends State<Kendali> {
                                     color: Colors.white,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold),
-                              )
+                              ),
+                              Switch(
+                                value: isSwitched3,
+                                onChanged: (value) {
+                                  setState(() {
+                                    // isSwitched = value;
+                                    isSwitched1 = false;
+                                    isSwitched2 = false;
+                                    isSwitched3 = value;
+                                    isSwitched4 = false;
+                                  });
+                                },
+                                activeColor:
+                                    const Color.fromARGB(255, 72, 248, 78),
+                                inactiveThumbColor: Colors.white,
+                                inactiveTrackColor:
+                                    Colors.white.withOpacity(0.9),
+                              ),
+                              if (isSwitched3)
+                                Text(
+                                  'ON',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              if (!isSwitched3)
+                                Text(
+                                  'OFF',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
                             ],
                           ),
                         ),
                       ),
                     ),
                     Card(
-                      color: Color(0xff3892FB),
+                      // color: Color(0xff3892FB),
+                      color: isSwitched4 ? Colors.blue : Color(0xff3892FB),
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius:
@@ -133,24 +244,53 @@ class _KendaliState extends State<Kendali> {
                       ),
                       child: Container(
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 50, bottom: 50, left: 28, right: 28),
+                          padding: const EdgeInsets.all(50),
                           child: Column(
                             children: [
-                              Image.asset(
-                                'assets/images/fan-1.png',
-                                width: 50,
-                              ),
-                              SizedBox(
-                                height: 8,
+                              Icon(
+                                Icons.heat_pump_sharp,
+                                size: 50,
                               ),
                               Text(
-                                'Pompa  Air',
+                                'Pump',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold),
-                              )
+                              ),
+                              Switch(
+                                value: isSwitched4,
+                                onChanged: (value) {
+                                  setState(() {
+                                    // isSwitched = value;
+                                    isSwitched1 = false;
+                                    isSwitched2 = false;
+                                    isSwitched3 = false;
+                                    isSwitched4 = value;
+                                  });
+                                },
+                                activeColor:
+                                    const Color.fromARGB(255, 72, 248, 78),
+                                inactiveThumbColor: Colors.white,
+                                inactiveTrackColor:
+                                    Colors.white.withOpacity(0.9),
+                              ),
+                              if (isSwitched4)
+                                Text(
+                                  'ON',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              if (!isSwitched4)
+                                Text(
+                                  'OFF',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
                             ],
                           ),
                         ),
