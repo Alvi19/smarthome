@@ -37,7 +37,7 @@ class _KendaliState extends State<Kendali> {
                   children: [
                     Card(
                       // color: Color(0xff3892FB),
-                      color: isSwitched1 ? Colors.blue : Colors.white70,
+                      color: isSwitched1 ? Colors.blue : Colors.white,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius:
@@ -104,7 +104,7 @@ class _KendaliState extends State<Kendali> {
                     ),
                     Card(
                       // color: Color(0xff3892FB),
-                      color: isSwitched2 ? Colors.blue : Color(0xff3892FB),
+                      color: isSwitched2 ? Colors.blue : Colors.white,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius:
@@ -115,14 +115,19 @@ class _KendaliState extends State<Kendali> {
                           padding: const EdgeInsets.all(50),
                           child: Column(
                             children: [
-                              Icon(
-                                Icons.ac_unit_rounded,
-                                size: 50,
+                              AnimatedContainer(
+                                duration: Duration(milliseconds: 200),
+                                child: Icon(
+                                  Icons.ac_unit,
+                                  size: 50,
+                                  color:
+                                      isSwitched2 ? Colors.white : Colors.blue,
+                                ),
                               ),
                               Text(
                                 'Kipas',
                                 style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black87,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -139,9 +144,9 @@ class _KendaliState extends State<Kendali> {
                                 },
                                 activeColor:
                                     const Color.fromARGB(255, 72, 248, 78),
-                                inactiveThumbColor: Colors.white,
+                                inactiveThumbColor: Colors.lightBlue,
                                 inactiveTrackColor:
-                                    Colors.white.withOpacity(0.9),
+                                    Colors.grey.withOpacity(0.50),
                               ),
                               if (isSwitched2)
                                 Text(
@@ -155,7 +160,7 @@ class _KendaliState extends State<Kendali> {
                                 Text(
                                   'OFF',
                                   style: TextStyle(
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -174,7 +179,7 @@ class _KendaliState extends State<Kendali> {
                   children: [
                     Card(
                       // color: Color(0xff3892FB),
-                      color: isSwitched3 ? Colors.blue : Color(0xff3892FB),
+                      color: isSwitched3 ? Colors.blue : Colors.white,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius:
@@ -185,14 +190,19 @@ class _KendaliState extends State<Kendali> {
                           padding: const EdgeInsets.all(50),
                           child: Column(
                             children: [
-                              Icon(
-                                Icons.door_sliding_rounded,
-                                size: 50,
+                              AnimatedContainer(
+                                duration: Duration(milliseconds: 200),
+                                child: Icon(
+                                  Icons.door_sliding_rounded,
+                                  size: 50,
+                                  color:
+                                      isSwitched3 ? Colors.white : Colors.blue,
+                                ),
                               ),
                               Text(
                                 'Pintu',
                                 style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black87,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -209,9 +219,9 @@ class _KendaliState extends State<Kendali> {
                                 },
                                 activeColor:
                                     const Color.fromARGB(255, 72, 248, 78),
-                                inactiveThumbColor: Colors.white,
+                                inactiveThumbColor: Colors.lightBlue,
                                 inactiveTrackColor:
-                                    Colors.white.withOpacity(0.9),
+                                    Colors.grey.withOpacity(0.50),
                               ),
                               if (isSwitched3)
                                 Text(
@@ -225,7 +235,7 @@ class _KendaliState extends State<Kendali> {
                                 Text(
                                   'OFF',
                                   style: TextStyle(
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -236,7 +246,7 @@ class _KendaliState extends State<Kendali> {
                     ),
                     Card(
                       // color: Color(0xff3892FB),
-                      color: isSwitched4 ? Colors.blue : Color(0xff3892FB),
+                      color: isSwitched4 ? Colors.blue : Colors.white,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius:
@@ -247,14 +257,19 @@ class _KendaliState extends State<Kendali> {
                           padding: const EdgeInsets.all(50),
                           child: Column(
                             children: [
-                              Icon(
-                                Icons.heat_pump_sharp,
-                                size: 50,
+                              AnimatedContainer(
+                                duration: Duration(milliseconds: 200),
+                                child: Icon(
+                                  Icons.heat_pump,
+                                  size: 50,
+                                  color:
+                                      isSwitched4 ? Colors.white : Colors.blue,
+                                ),
                               ),
                               Text(
                                 'Pump',
                                 style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black87,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -271,9 +286,9 @@ class _KendaliState extends State<Kendali> {
                                 },
                                 activeColor:
                                     const Color.fromARGB(255, 72, 248, 78),
-                                inactiveThumbColor: Colors.white,
+                                inactiveThumbColor: Colors.lightBlue,
                                 inactiveTrackColor:
-                                    Colors.white.withOpacity(0.9),
+                                    Colors.grey.withOpacity(0.50),
                               ),
                               if (isSwitched4)
                                 Text(
@@ -287,7 +302,7 @@ class _KendaliState extends State<Kendali> {
                                 Text(
                                   'OFF',
                                   style: TextStyle(
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -300,7 +315,7 @@ class _KendaliState extends State<Kendali> {
                 ),
               ),
               SizedBox(
-                height: 30,
+                height: 10,
               ),
               Card(
                 color: Color(0xff3892FB),
