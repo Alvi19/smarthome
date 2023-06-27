@@ -118,7 +118,7 @@ class _KendaliState extends State<Kendali> {
                               AnimatedContainer(
                                 duration: Duration(milliseconds: 200),
                                 child: Icon(
-                                  Icons.ac_unit,
+                                  Icons.ac_unit_sharp,
                                   size: 50,
                                   color:
                                       isSwitched2 ? Colors.white : Colors.blue,
@@ -260,7 +260,7 @@ class _KendaliState extends State<Kendali> {
                               AnimatedContainer(
                                 duration: Duration(milliseconds: 200),
                                 child: Icon(
-                                  Icons.heat_pump,
+                                  Icons.heat_pump_outlined,
                                   size: 50,
                                   color:
                                       isSwitched4 ? Colors.white : Colors.blue,

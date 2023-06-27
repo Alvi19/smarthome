@@ -33,7 +33,7 @@ class _homeState extends State<home> {
                 ),
               ),
               Text(
-                'Smart Home',
+                'SMART HOME',
                 style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
               ),
               Card(
@@ -59,7 +59,7 @@ class _homeState extends State<home> {
                         Padding(
                           padding: const EdgeInsets.all(8),
                           child: Text(
-                            'OF',
+                            'OFF',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                             textAlign: TextAlign.center,
@@ -203,6 +203,7 @@ class _homeState extends State<home> {
                                     fontSize: 40,
                                     fontWeight: FontWeight.bold),
                               ),
+                              Image.asset('assets/images/temperature.png'),
                               SizedBox(
                                 height: 8,
                               ),
@@ -228,7 +229,7 @@ class _homeState extends State<home> {
                       child: Container(
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 50, bottom: 50, left: 28, right: 28),
+                              top: 55, bottom: 55, left: 25, right: 25),
                           child: Column(
                             children: [
                               Text(
@@ -237,6 +238,11 @@ class _homeState extends State<home> {
                                     color: Colors.white,
                                     fontSize: 40,
                                     fontWeight: FontWeight.bold),
+                              ),
+                              Icon(
+                                Icons.water_drop,
+                                size: 50,
+                                color: Colors.white,
                               ),
                               SizedBox(
                                 height: 8,
