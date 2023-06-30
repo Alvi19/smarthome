@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: home(),
+      home: Kendali(),
       debugShowCheckedModeBanner: false,
     );
   }

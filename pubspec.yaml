@@ -43,6 +43,7 @@ dependencies:
   shared_preferences: ^2.0.15
   http: ^0.13.5
   url_launcher: ^6.1.11
+  mqtt_client: ^10.0.0
 
 dev_dependencies:
   flutter_test:
