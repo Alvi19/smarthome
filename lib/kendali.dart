@@ -78,7 +78,7 @@ class _KendaliState extends State<Kendali> {
               isSwitched3 = value;
             });
           }
-          if (key == 'pump') {
+          if (key == 'pompa') {
             setState(() {
               isSwitched4 = value;
             });
@@ -399,7 +399,7 @@ class _KendaliState extends State<Kendali> {
                                     ),
                                   ),
                                   Text(
-                                    'Pump',
+                                    'Pump Air',
                                     style: TextStyle(
                                         color: Colors.black87,
                                         fontSize: 20,
@@ -412,7 +412,7 @@ class _KendaliState extends State<Kendali> {
                                         final builder =
                                             MqttClientPayloadBuilder();
                                         builder.addString(
-                                            jsonEncode({'pump': value}));
+                                            jsonEncode({'pompa': value}));
 
                                         try {
                                           client.publishMessage(

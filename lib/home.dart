@@ -1,16 +1,44 @@
 // import 'dart:js' as js;
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:aplikasi_iot/kendali.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:mqtt_client/mqtt_client.dart';
+import 'package:mqtt_client/mqtt_server_client.dart';
 // import 'package:url_launcher/url_launcher.dart';
 // import 'package:url_launcher/url_launcher_string.dart';
+
+var connected = false;
 
 class home extends StatefulWidget {
   const home({super.key});
   @override
-  State<home> createState() => _homeState();
+  State<home> createState() {
+    connected = false;
+    return _homeState();
+  }
 }
+
+final client = MqttServerClient('broker.emqx.io', '');
+var pongCount = 0; // Pong counter
+
+var topic = 'iot-app-90';
+
+bool kebakaran = false;
+bool api = false;
+bool asap = false;
+var suhu = '0';
+var kelembapan = '0';
+
+final connMess = MqttConnectMessage()
+    .withClientIdentifier('Android')
+    .withWillTopic('willtopic') // If you set this you must set a will message
+    .withWillMessage('My Will message')
+    .startClean() // Non persistent session for testing
+    .withWillQos(MqttQos.atLeastOnce);
 
 // void _makePhoneCall(String phoneNumber) {
 //   js.context.callMethod('open', [phoneNumber]);
@@ -19,6 +47,91 @@ class home extends StatefulWidget {
 class _homeState extends State<home> {
   @override
   Widget build(BuildContext context) {
+    void onSubscribed(String topic) {
+      print('EXAMPLE::Subscription confirmed for topic $topic');
+    }
+
+    void onDisconnected() {
+      connected = false;
+    }
+
+    void onConnected() {
+      try {
+        client.subscribe(topic, MqttQos.atMostOnce);
+        client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
+          final recMess = c![0].payload as MqttPublishMessage;
+          final pt =
+              MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
+
+          final data = json.decode(pt);
+          var key = '';
+          var value = null;
+          data.forEach((key1, value1) {
+            key = key1;
+            value = value1;
+          });
+
+          if (key == 'kebakaran') {
+            setState(() {
+              kebakaran = value;
+            });
+          }
+          if (key == 'api') {
+            setState(() {
+              api = value;
+            });
+          }
+          if (key == 'asap') {
+            setState(() {
+              asap = value;
+            });
+          }
+          if (key == 'suhu') {
+            setState(() {
+              suhu = value.toString();
+            });
+          }
+          if (key == 'kelembapan') {
+            setState(() {
+              kelembapan = value.toString();
+            });
+          }
+          print(
+              'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
+          print('');
+        });
+      } catch (e) {}
+
+      print(
+          'EXAMPLE::OnConnected client callback - Client connection was successful');
+    }
+
+    Future<void> connect() async {
+      try {
+        print('mencoba konek');
+        await client.connect();
+
+        connected = true;
+      } on NoConnectionException catch (e) {
+        // Raised by the client when connection fails.
+        print('EXAMPLE::client exception - $e');
+        client.disconnect();
+      } on SocketException catch (e) {
+        // Raised by the socket layer
+        print('EXAMPLE::socket exception - $e');
+        client.disconnect();
+      }
+    }
+
+    if (!connected) {
+      client.connectionMessage = connMess;
+      client.onConnected = onConnected;
+      client.onDisconnected = onDisconnected;
+      client.onSubscribed = onSubscribed;
+
+      print('mencobaa konek2');
+      connect();
+    }
     return Scaffold(
       backgroundColor: Color(0xffB4C1D8),
       body: Container(
@@ -46,6 +159,7 @@ class _homeState extends State<home> {
                           TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
                     ),
                     Card(
+                        color: kebakaran ? Colors.red : Colors.white,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
@@ -63,14 +177,20 @@ class _homeState extends State<home> {
                               Text(
                                 'Status Kebakaran',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20),
+                                    color:
+                                        kebakaran ? Colors.white : Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
                                 textAlign: TextAlign.center,
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: Text(
-                                  'OFF',
+                                  kebakaran ? 'ON' : 'OFF',
                                   style: TextStyle(
+                                      color: kebakaran
+                                          ? Colors.white
+                                          : Colors.black,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20),
                                   textAlign: TextAlign.center,
@@ -88,7 +208,7 @@ class _homeState extends State<home> {
                             width: MediaQuery.of(context).size.width * 0.30,
                             height: MediaQuery.of(context).size.height * 0.12,
                             child: Card(
-                              color: Color(0xff3892FB),
+                              color: asap ? Colors.red : Colors.blue,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                 borderRadius:
@@ -107,7 +227,7 @@ class _homeState extends State<home> {
                                   SizedBox(
                                     height: 8,
                                   ),
-                                  Text('OFF',
+                                  Text(asap ? 'ON' : 'OFF',
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 20,
@@ -161,7 +281,7 @@ class _homeState extends State<home> {
                             width: MediaQuery.of(context).size.width * 0.30,
                             height: MediaQuery.of(context).size.height * 0.12,
                             child: Card(
-                              color: Color(0xff3892FB),
+                              color: api ? Colors.red : Colors.blue,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                 borderRadius:
@@ -211,7 +331,7 @@ class _homeState extends State<home> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    '26°',
+                                    suhu.toString() + '°',
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 40,
@@ -246,7 +366,7 @@ class _homeState extends State<home> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    '26°',
+                                    kelembapan.toString() + '°',
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 40,
