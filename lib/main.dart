@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:aplikasi_iot/home.dart';
 import 'package:aplikasi_iot/kendali.dart';
 import 'package:aplikasi_iot/login.dart';
+import 'package:aplikasi_iot/scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: home(),
+      home: ScannerPage(),
       debugShowCheckedModeBanner: false,
     );
   }
