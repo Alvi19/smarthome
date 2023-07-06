@@ -397,40 +397,6 @@ class _homeState extends State<home> {
                   ],
                 ),
               ),
-              Card(
-                color: Color(0xff3892FB),
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Container(
-                    margin: EdgeInsets.only(right: 40, left: 40),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          onPressed: (() => {}),
-                          icon: Icon(Icons.home),
-                          iconSize: 35,
-                          color: Colors.white,
-                        ),
-                        IconButton(
-                          onPressed: (() => {
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: ((context) => Kendali()))),
-                              }),
-                          icon: Icon(Icons.menu),
-                          iconSize: 35,
-                          color: Color(0xffB4C1D8),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              )
             ],
           ),
         ),
