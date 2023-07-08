@@ -1,6 +1,9 @@
-import 'package:aplikasi_iot/home.dart';
+import 'package:aplikasi_iot/monitoring.dart';
+import 'package:aplikasi_iot/network/api.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
+
+import 'home.dart';
 
 class ScannerPage extends StatefulWidget {
   const ScannerPage({Key? key}) : super(key: key);
@@ -32,9 +35,9 @@ class _ScannerPageState extends State<ScannerPage> {
               setState(() {
                 if (res is String) {
                   result = res;
-                  print(result);
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: ((context) => home())));
+                  Network().postData('/perangkat', {'qr_code': result});
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: ((context) => BottomNavigationBarExample())));
                 }
               });
             },

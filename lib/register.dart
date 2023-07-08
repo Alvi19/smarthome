@@ -40,12 +40,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
       } else if (body['success']) {
         SharedPreferences localStorage;
 
-        localStorage = await SharedPreferences.getInstance();
-        localStorage.setString('token', json.encode(body['data']['token']));
-        localStorage.setString('user', json.encode(body['data']['nama']));
+        print(body['data']['token']);
 
-        Navigator.of(context)
-          ..pushReplacement(MaterialPageRoute(builder: ((context) => home())));
+        localStorage = await SharedPreferences.getInstance();
+        localStorage.setString('token', body['data']['token'].toString());
+        localStorage.setString('user', body['data']['nama'].toString());
+
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: ((context) => BottomNavigationBarExample())));
 
         print("sukses");
       } else {}
@@ -90,7 +92,40 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             TextFormField(
                                 controller: _namacontroller,
                                 decoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsetsDirectional.fromSTEB(
+                                          20, 20, 20, 20),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0xffd9d9d9),
+                                      width: 0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.blue,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
                                   labelText: 'Nama',
+                                  filled: true,
+                                  fillColor: Color(0xffd9d9d9),
                                 ),
                                 validator: (value) =>
                                     value!.isEmpty ? "Perlu di isi" : null),
@@ -98,7 +133,40 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             TextFormField(
                                 controller: _emailcontroller,
                                 decoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsetsDirectional.fromSTEB(
+                                          20, 20, 20, 20),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0xffd9d9d9),
+                                      width: 0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.blue,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
                                   labelText: 'Email',
+                                  filled: true,
+                                  fillColor: Color(0xffd9d9d9),
                                 ),
                                 validator: (value) =>
                                     value!.isEmpty ? "Perlu di isi" : null),
@@ -106,7 +174,40 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             TextFormField(
                                 controller: _passwordcontroller,
                                 decoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsetsDirectional.fromSTEB(
+                                          20, 20, 20, 20),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0xffd9d9d9),
+                                      width: 0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.blue,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
                                   labelText: 'Password',
+                                  filled: true,
+                                  fillColor: Color(0xffd9d9d9),
                                 ),
                                 obscureText: true,
                                 validator: (value) =>
@@ -115,19 +216,65 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             TextFormField(
                                 controller: _confirmpasswordcontroller,
                                 decoration: InputDecoration(
-                                  labelText: 'konfirmasi Password',
+                                  contentPadding:
+                                      EdgeInsetsDirectional.fromSTEB(
+                                          20, 20, 20, 20),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0xffd9d9d9),
+                                      width: 0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.blue,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  labelText: 'Konfirmasi Password',
+                                  filled: true,
+                                  fillColor: Color(0xffd9d9d9),
                                 ),
                                 obscureText: true,
                                 validator: (value) =>
                                     value!.isEmpty ? "Perlu di isi" : null),
-                            ElevatedButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  _register();
-                                }
-                                // Kode untuk menangani submit form
-                              },
-                              child: Text('Daftar'),
+                            SizedBox(height: 25),
+                            Container(
+                              width: 150,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: Color(0xff0075ff)),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    _register();
+                                  }
+                                  // Kode untuk menangani submit form
+                                },
+                                child: Text(
+                                  'Daftar',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                              ),
                             ),
                           ],
                         )),

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:aplikasi_iot/home.dart';
+// import 'package:aplikasi_iot/home.dart';
 import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
@@ -128,17 +128,31 @@ class _KendaliState extends State<Kendali> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.30,
+                height: MediaQuery.of(context).size.height * 0.35,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 50, bottom: 20),
-                  child: Image.asset(
-                    'assets/images/banner.png',
-                    height: 300,
+                  padding: const EdgeInsets.only(
+                      top: 40, bottom: 20, left: 20, right: 20),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '',
+                        ),
+                      ),
+                      Container(
+                        height: 30,
+                      ),
+                      Image.asset(
+                        'assets/images/banner.png',
+                        height: 200,
+                      ),
+                    ],
                   ),
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.60,
+                height: MediaQuery.of(context).size.height * 0.57,
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
@@ -156,7 +170,7 @@ class _KendaliState extends State<Kendali> {
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                 borderRadius:
-                                    const BorderRadius.all(Radius.circular(10)),
+                                    const BorderRadius.all(Radius.circular(30)),
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -230,7 +244,7 @@ class _KendaliState extends State<Kendali> {
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                 borderRadius:
-                                    const BorderRadius.all(Radius.circular(10)),
+                                    const BorderRadius.all(Radius.circular(30)),
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -309,7 +323,7 @@ class _KendaliState extends State<Kendali> {
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                 borderRadius:
-                                    const BorderRadius.all(Radius.circular(10)),
+                                    const BorderRadius.all(Radius.circular(30)),
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -383,7 +397,7 @@ class _KendaliState extends State<Kendali> {
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                 borderRadius:
-                                    const BorderRadius.all(Radius.circular(10)),
+                                    const BorderRadius.all(Radius.circular(30)),
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
