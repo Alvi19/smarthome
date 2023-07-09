@@ -35,9 +35,11 @@ class _ScannerPageState extends State<ScannerPage> {
               setState(() {
                 if (res is String) {
                   result = res;
-                  Network().postData('/perangkat', {'qr_code': result});
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: ((context) => BottomNavigationBarExample())));
+                  if (result.substring(0, 8) == 'app-iot-') {
+                    Network().postData('/perangkat', {'qr_code': result});
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: ((context) => BottomNavigationBarExample())));
+                  }
                 }
               });
             },

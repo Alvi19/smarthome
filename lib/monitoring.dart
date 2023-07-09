@@ -2,17 +2,24 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:aplikasi_iot/home.dart';
 import 'package:aplikasi_iot/kendali.dart';
 import 'package:aplikasi_iot/network/api.dart';
+import 'package:aplikasi_iot/otp.dart';
+import 'package:aplikasi_iot/scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:url_launcher/url_launcher.dart';
 // import 'package:url_launcher/url_launcher_string.dart';
 
 var connected = false;
+var topic = '';
+var idPerangkat = '';
+var perangkat = null;
 
 class home extends StatefulWidget {
   const home({super.key});
@@ -25,8 +32,6 @@ class home extends StatefulWidget {
 
 final client = MqttServerClient('broker.emqx.io', '');
 var pongCount = 0; // Pong counter
-
-var topic = 'iot-app-90';
 
 bool kebakaran = false;
 bool api = false;
@@ -45,9 +50,57 @@ final connMess = MqttConnectMessage()
 //   js.context.callMethod('open', [phoneNumber]);
 // }
 
+var suksesGetPerangkat2 = false;
+
 class _homeState extends State<home> {
   @override
   Widget build(BuildContext context) {
+    if (selectedIndex != 0) {
+      setState(() {});
+    }
+    void cekPerangkat() async {
+      var res = await Network().getData("/user");
+      var body = jsonDecode(res.body);
+
+      print(body);
+
+      List? perangkats =
+          body['perangkats'] != null ? List.from(body['perangkats']) : null;
+
+      if (perangkats != null && perangkats.length == 0) {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: ((context) => ScannerPage())));
+      } else {
+        topic = perangkats![0]['qr_code'];
+        idPerangkat = perangkats![0]['id'];
+        perangkat = perangkats![0];
+
+        final SharedPreferences localStorage =
+            await SharedPreferences.getInstance();
+        await localStorage.setString('idPerangkat', idPerangkat);
+
+        if (perangkat != null) {
+          print('test');
+          suksesGetPerangkat2 = true;
+          setState(() {
+            kebakaran = perangkat['kebakaran'].toString() == '1';
+            asap = perangkat['asap'].toString() == '1';
+            api = perangkat['api'].toString() == '1';
+            suhu = perangkat['suhu'].toString();
+            kelembapan = perangkat['kelembapan'].toString();
+          });
+        }
+      }
+
+      if (body['kode_otp'] != null) {
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: ((context) => Otp())));
+      }
+    }
+
+    if (!suksesGetPerangkat2 && idPerangkat == '') {
+      cekPerangkat();
+    } else {}
     void onSubscribed(String topic) {
       print('EXAMPLE::Subscription confirmed for topic $topic');
     }
@@ -97,6 +150,20 @@ class _homeState extends State<home> {
               kelembapan = value.toString();
             });
           }
+
+          if (key == 'lampu') {
+            isSwitched1 = value;
+          }
+          if (key == 'kipas') {
+            isSwitched2 = value;
+          }
+          if (key == 'pintu') {
+            isSwitched3 = value;
+          }
+          if (key == 'pompa') {
+            isSwitched4 = value;
+          }
+
           print(
               'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
           print('');
@@ -201,7 +268,7 @@ class _homeState extends State<home> {
                                 textAlign: TextAlign.center,
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(13),
                                 child: Text(
                                   kebakaran ? 'ON' : 'OFF',
                                   style: TextStyle(
@@ -317,7 +384,7 @@ class _homeState extends State<home> {
                                   SizedBox(
                                     height: 8,
                                   ),
-                                  Text('OFF',
+                                  Text(api ? 'ON' : 'OFF',
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 20,

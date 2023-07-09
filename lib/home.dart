@@ -19,9 +19,10 @@ class BottomNavigationBarExample extends StatefulWidget {
       _BottomNavigationBarExampleState();
 }
 
+int selectedIndex = 0;
+
 class _BottomNavigationBarExampleState
     extends State<BottomNavigationBarExample> {
-  int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
@@ -36,28 +37,8 @@ class _BottomNavigationBarExampleState
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      selectedIndex = index;
     });
-  }
-
-  void cekPerangkat() async {
-    var res = await Network().getData("/user");
-    var body = jsonDecode(res.body);
-
-    print(body);
-
-    List? perangkats =
-        body['perangkats'] != null ? List.from(body['perangkats']) : null;
-
-    if (perangkats != null && perangkats.length == 0) {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: ((context) => ScannerPage())));
-    }
-
-    if (body['kode_otp'] != null) {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: ((context) => Otp())));
-    }
   }
 
   void isLogin() async {
@@ -72,10 +53,9 @@ class _BottomNavigationBarExampleState
   @override
   Widget build(BuildContext context) {
     isLogin();
-    cekPerangkat();
     return Scaffold(
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: _widgetOptions.elementAt(selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         unselectedIconTheme: IconThemeData(color: Colors.white70),
@@ -102,7 +82,7 @@ class _BottomNavigationBarExampleState
             backgroundColor: Colors.blue,
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: selectedIndex,
         selectedItemColor: Colors.white,
         onTap: _onItemTapped,
       ),

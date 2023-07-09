@@ -2,9 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 // import 'package:aplikasi_iot/home.dart';
+import 'package:aplikasi_iot/home.dart';
+import 'package:aplikasi_iot/monitoring.dart';
+import 'package:aplikasi_iot/network/api.dart';
 import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 var connected = false;
 
@@ -21,8 +25,6 @@ class Kendali extends StatefulWidget {
 final client = MqttServerClient('broker.emqx.io', '');
 var pongCount = 0; // Pong counter
 
-var topic = 'iot-app-90';
-
 // bool isSwitched = false;
 bool isSwitched1 = false;
 bool isSwitched2 = false;
@@ -36,9 +38,39 @@ final connMess = MqttConnectMessage()
     .startClean() // Non persistent session for testing
     .withWillQos(MqttQos.atLeastOnce);
 
+var suksesGetPerangkat = false;
+
 class _KendaliState extends State<Kendali> {
   @override
   Widget build(BuildContext context) {
+    if (selectedIndex != 1) {
+      setState(() {});
+    }
+    void getPerangkat() async {
+      final SharedPreferences localStorage =
+          await SharedPreferences.getInstance();
+      idPerangkat = await localStorage.getString('idPerangkat')!;
+      var res = await Network().getData("/perangkat/" + idPerangkat);
+      var body = jsonDecode(res.body);
+
+      print(body);
+
+      if (body['data'] != null) {
+        print('test');
+        suksesGetPerangkat = true;
+        setState(() {
+          isSwitched1 = body['data']['lampu'].toString() == '1';
+          isSwitched2 = body['data']['kipas'].toString() == '1';
+          isSwitched3 = body['data']['pintu'].toString() == '1';
+          isSwitched4 = body['data']['pompa'].toString() == '1';
+        });
+      }
+    }
+
+    if (!suksesGetPerangkat) {
+      getPerangkat();
+    }
+
     void onSubscribed(String topic) {
       print('EXAMPLE::Subscription confirmed for topic $topic');
     }
@@ -82,6 +114,22 @@ class _KendaliState extends State<Kendali> {
             setState(() {
               isSwitched4 = value;
             });
+          }
+
+          if (key == 'kebakaran') {
+            kebakaran = value;
+          }
+          if (key == 'api') {
+            api = value;
+          }
+          if (key == 'asap') {
+            asap = value;
+          }
+          if (key == 'suhu') {
+            suhu = value.toString();
+          }
+          if (key == 'kelembapan') {
+            kelembapan = value.toString();
           }
           print(
               'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
@@ -239,7 +287,6 @@ class _KendaliState extends State<Kendali> {
                             width: MediaQuery.of(context).size.width * 0.40,
                             height: MediaQuery.of(context).size.height * 0.25,
                             child: Card(
-                              // color: Color(0xff3892FB),
                               color: isSwitched2 ? Colors.blue : Colors.white,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
