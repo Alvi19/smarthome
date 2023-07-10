@@ -7,9 +7,11 @@ import 'package:aplikasi_iot/kendali.dart';
 import 'package:aplikasi_iot/network/api.dart';
 import 'package:aplikasi_iot/otp.dart';
 import 'package:aplikasi_iot/scanner.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:mqtt_client/mqtt_browser_client.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,7 +32,12 @@ class home extends StatefulWidget {
   }
 }
 
-final client = MqttServerClient('broker.emqx.io', '');
+var client_id =
+    'app-iot-monitoring' + DateTime.now().millisecondsSinceEpoch.toString();
+
+final client = MqttBrowserClient('ws://test.mosquitto.org/mqtt', client_id);
+// final client = MqttServerClient('test.mosquitto.org', client_id);
+
 var pongCount = 0; // Pong counter
 
 bool kebakaran = false;
@@ -40,7 +47,7 @@ var suhu = '0';
 var kelembapan = '0';
 
 final connMess = MqttConnectMessage()
-    .withClientIdentifier('Android')
+    .withClientIdentifier(client_id)
     .withWillTopic('willtopic') // If you set this you must set a will message
     .withWillMessage('My Will message')
     .startClean() // Non persistent session for testing
@@ -55,47 +62,54 @@ var suksesGetPerangkat2 = false;
 class _homeState extends State<home> {
   @override
   Widget build(BuildContext context) {
+    client.websocketProtocols = ['mqtt'];
+
+    if (kIsWeb) {
+      client.port = 8080;
+    }
     if (selectedIndex != 0) {
       setState(() {});
     }
     void cekPerangkat() async {
-      var res = await Network().getData("/user");
-      var body = jsonDecode(res.body);
+      try {
+        var res = await Network().getData("/user");
+        var body = jsonDecode(res.body);
 
-      print(body);
+        print(body);
 
-      List? perangkats =
-          body['perangkats'] != null ? List.from(body['perangkats']) : null;
+        List? perangkats =
+            body['perangkats'] != null ? List.from(body['perangkats']) : null;
 
-      if (perangkats != null && perangkats.length == 0) {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: ((context) => ScannerPage())));
-      } else {
-        topic = perangkats![0]['qr_code'];
-        idPerangkat = perangkats![0]['id'];
-        perangkat = perangkats![0];
+        if (perangkats != null && perangkats.length == 0) {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: ((context) => ScannerPage())));
+        } else {
+          topic = perangkats![0]['qr_code'];
+          idPerangkat = perangkats![0]['id'];
+          perangkat = perangkats![0];
 
-        final SharedPreferences localStorage =
-            await SharedPreferences.getInstance();
-        await localStorage.setString('idPerangkat', idPerangkat);
+          final SharedPreferences localStorage =
+              await SharedPreferences.getInstance();
+          await localStorage.setString('idPerangkat', idPerangkat);
 
-        if (perangkat != null) {
-          print('test');
-          suksesGetPerangkat2 = true;
-          setState(() {
-            kebakaran = perangkat['kebakaran'].toString() == '1';
-            asap = perangkat['asap'].toString() == '1';
-            api = perangkat['api'].toString() == '1';
-            suhu = perangkat['suhu'].toString();
-            kelembapan = perangkat['kelembapan'].toString();
-          });
+          if (perangkat != null) {
+            print('test');
+            suksesGetPerangkat2 = true;
+            setState(() {
+              kebakaran = perangkat['kebakaran'].toString() == '1';
+              asap = perangkat['asap'].toString() == '1';
+              api = perangkat['api'].toString() == '1';
+              suhu = perangkat['suhu'].toString();
+              kelembapan = perangkat['kelembapan'].toString();
+            });
+          }
         }
-      }
 
-      if (body['kode_otp'] != null) {
-        Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: ((context) => Otp())));
-      }
+        if (body['kode_otp'] != null) {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: ((context) => Otp())));
+        }
+      } catch (e) {}
     }
 
     if (!suksesGetPerangkat2 && idPerangkat == '') {
@@ -208,29 +222,17 @@ class _homeState extends State<home> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.38,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 50, bottom: 20, left: 20, right: 20),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'HI_Admin',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                        height: 40,
-                      ),
-                      Image.asset(
-                        'assets/images/banner.png',
-                        height: 200,
-                      ),
-                    ],
-                  ),
+                height: MediaQuery.of(context).size.height * 0.30,
+                child: Column(
+                  children: [
+                    Container(
+                      height: 30,
+                    ),
+                    Image.asset(
+                      'assets/images/banner.png',
+                      height: 200,
+                    ),
+                  ],
                 ),
               ),
               Container(

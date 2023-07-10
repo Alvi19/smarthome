@@ -5,10 +5,12 @@ import 'dart:io';
 import 'package:aplikasi_iot/home.dart';
 import 'package:aplikasi_iot/monitoring.dart';
 import 'package:aplikasi_iot/network/api.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mqtt_client/mqtt_browser_client.dart';
 
 var connected = false;
 
@@ -22,7 +24,12 @@ class Kendali extends StatefulWidget {
   }
 }
 
-final client = MqttServerClient('broker.emqx.io', '');
+var client_id =
+    'app-iot-kendali' + DateTime.now().millisecondsSinceEpoch.toString();
+
+final client = MqttBrowserClient('ws://test.mosquitto.org/mqtt', client_id);
+// final client = MqttServerClient('test.mosquitto.org', client_id);
+
 var pongCount = 0; // Pong counter
 
 // bool isSwitched = false;
@@ -32,7 +39,7 @@ bool isSwitched3 = false;
 bool isSwitched4 = false;
 
 final connMess = MqttConnectMessage()
-    .withClientIdentifier('Android')
+    .withClientIdentifier(client_id)
     .withWillTopic('willtopic') // If you set this you must set a will message
     .withWillMessage('My Will message')
     .startClean() // Non persistent session for testing
@@ -144,6 +151,11 @@ class _KendaliState extends State<Kendali> {
     Future<void> connect() async {
       try {
         print('mencoba konek');
+        client.websocketProtocols = ['mqtt'];
+
+        if (kIsWeb) {
+          client.port = 8080;
+        }
         await client.connect();
 
         connected = true;
@@ -176,31 +188,21 @@ class _KendaliState extends State<Kendali> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.35,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 40, bottom: 20, left: 20, right: 20),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          '',
-                        ),
-                      ),
-                      Container(
-                        height: 30,
-                      ),
-                      Image.asset(
-                        'assets/images/banner.png',
-                        height: 200,
-                      ),
-                    ],
-                  ),
+                height: MediaQuery.of(context).size.height * 0.30,
+                child: Column(
+                  children: [
+                    Container(
+                      height: 30,
+                    ),
+                    Image.asset(
+                      'assets/images/banner.png',
+                      height: 200,
+                    ),
+                  ],
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.57,
+                height: MediaQuery.of(context).size.height * 0.60,
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
@@ -248,13 +250,16 @@ class _KendaliState extends State<Kendali> {
                                             MqttClientPayloadBuilder();
                                         builder.addString(
                                             jsonEncode({'lampu': value}));
-
+                                        print("sebelum publish ");
                                         try {
                                           client.publishMessage(
                                               topic,
                                               MqttQos.exactlyOnce,
                                               builder.payload!);
-                                        } on ConnectionException catch (e) {}
+                                          print("setelah publish ");
+                                        } on ConnectionException catch (e) {
+                                          print(e);
+                                        }
                                       });
                                     },
                                     activeColor:
@@ -515,40 +520,6 @@ class _KendaliState extends State<Kendali> {
                   ),
                 ),
               ),
-              // Card(
-              //   color: Color(0xff3892FB),
-              //   elevation: 0,
-              //   shape: RoundedRectangleBorder(
-              //     borderRadius: const BorderRadius.all(Radius.circular(10)),
-              //   ),
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(10.0),
-              //     child: Container(
-              //       margin: EdgeInsets.only(right: 40, left: 40),
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         children: [
-              //           IconButton(
-              //             onPressed: (() => {
-              //                   Navigator.of(context).pushReplacement(
-              //                       MaterialPageRoute(
-              //                           builder: ((context) => home()))),
-              //                 }),
-              //             icon: Icon(Icons.home),
-              //             iconSize: 35,
-              //             color: Color(0xffB4C1D8),
-              //           ),
-              //           IconButton(
-              //             onPressed: (() => {}),
-              //             icon: Icon(Icons.menu),
-              //             iconSize: 35,
-              //             color: Colors.white,
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // )
             ],
           ),
         ),

@@ -1,4 +1,3 @@
-import 'package:aplikasi_iot/monitoring.dart';
 import 'package:aplikasi_iot/network/api.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
