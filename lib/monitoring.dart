@@ -11,7 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:mqtt_client/mqtt_browser_client.dart';
+// import 'package:mqtt_client/mqtt_browser_client.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,8 +35,10 @@ class home extends StatefulWidget {
 var client_id =
     'app-iot-monitoring' + DateTime.now().millisecondsSinceEpoch.toString();
 
-final client = MqttBrowserClient('ws://test.mosquitto.org/mqtt', client_id);
-// final client = MqttServerClient('test.mosquitto.org', client_id);
+// Web
+// final client = MqttBrowserClient('ws://test.mosquitto.org/mqtt', client_id);
+// Apk
+final client = MqttServerClient('test.mosquitto.org', client_id);
 
 var pongCount = 0; // Pong counter
 
@@ -226,7 +228,7 @@ class _homeState extends State<home> {
                 child: Column(
                   children: [
                     Container(
-                      height: 30,
+                      height: 45,
                     ),
                     Image.asset(
                       'assets/images/banner.png',
