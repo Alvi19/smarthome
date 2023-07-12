@@ -1,7 +1,6 @@
 // import 'dart:js' as js;
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:aplikasi_iot/home.dart';
 import 'package:aplikasi_iot/kendali.dart';
 import 'package:aplikasi_iot/network/api.dart';
@@ -11,7 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-// import 'package:mqtt_client/mqtt_browser_client.dart';
+import 'package:mqtt_client/mqtt_browser_client.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,9 +35,9 @@ var client_id =
     'app-iot-monitoring' + DateTime.now().millisecondsSinceEpoch.toString();
 
 // Web
-// final client = MqttBrowserClient('ws://test.mosquitto.org/mqtt', client_id);
+final client = MqttBrowserClient('ws://test.mosquitto.org/mqtt', client_id);
 // Apk
-final client = MqttServerClient('test.mosquitto.org', client_id);
+// final client = MqttServerClient('test.mosquitto.org', client_id);
 
 var pongCount = 0; // Pong counter
 
@@ -232,7 +231,7 @@ class _homeState extends State<home> {
                     ),
                     Image.asset(
                       'assets/images/banner.png',
-                      height: 200,
+                      height: 180,
                     ),
                   ],
                 ),

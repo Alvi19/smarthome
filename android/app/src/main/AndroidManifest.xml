@@ -17,6 +17,7 @@
         android:label="Smarthome"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -43,8 +44,12 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-
-           
+<!-- 
+          <service android:name=".MessagingService">
+          <intent-filter>
+            <action android:name="com.google.firebase.MESSAGING_EVENT" />
+          </intent-filter>
+        </service> -->
     </application>
 
      <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />

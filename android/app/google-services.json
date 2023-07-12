@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "731899093719",
+    "project_id": "smarthome-be050",
+    "storage_bucket": "smarthome-be050.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:731899093719:android:07cc60c67a2d158a308692",
+        "android_client_info": {
+          "package_name": "com.example.aplikasi_iot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "731899093719-469ai59ei37ka0q9e957s3c7cvl4jn8r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnXJaBCktX89X076oRt6h_IDiYUtX9wC4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "731899093719-469ai59ei37ka0q9e957s3c7cvl4jn8r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "731899093719-vnnhp273ldb89jvuum5fgv7bvc1au46q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.aplikasiIot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

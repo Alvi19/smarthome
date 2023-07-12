@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:mqtt_client/mqtt_browser_client.dart';
+import 'package:mqtt_client/mqtt_browser_client.dart';
 
 var connected = false;
 
@@ -28,9 +28,9 @@ var client_id =
     'app-iot-kendali' + DateTime.now().millisecondsSinceEpoch.toString();
 
 // Web
-// final client = MqttBrowserClient('ws://test.mosquitto.org/mqtt', client_id);
+final client = MqttBrowserClient('ws://test.mosquitto.org/mqtt', client_id);
 // Apk
-final client = MqttServerClient('test.mosquitto.org', client_id);
+// final client = MqttServerClient('test.mosquitto.org', client_id);
 
 var pongCount = 0; // Pong counter
 
@@ -198,7 +198,7 @@ class _KendaliState extends State<Kendali> {
                     ),
                     Image.asset(
                       'assets/images/banner.png',
-                      height: 200,
+                      height: 180,
                     ),
                   ],
                 ),
