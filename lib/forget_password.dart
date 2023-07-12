@@ -2,34 +2,36 @@ import 'dart:convert';
 
 import 'package:aplikasi_iot/home.dart';
 import 'package:aplikasi_iot/network/api.dart';
+import 'package:aplikasi_iot/otp_password.dart';
 import 'package:flutter/material.dart';
 
-class Otp extends StatefulWidget {
-  const Otp({Key? key}) : super(key: key);
+class Forget_password extends StatefulWidget {
+  const Forget_password({Key? key}) : super(key: key);
 
   @override
-  _OtpState createState() => _OtpState();
+  _Forget_password createState() => _Forget_password();
 }
 
-class _OtpState extends State<Otp> {
+class _Forget_password extends State<Forget_password> {
   final _formKey = GlobalKey<FormState>();
-  final _otpcontroller = TextEditingController(text: '');
+  final _forget_passwordcontroller = TextEditingController(text: '');
 
   @override
-  void sendOtp() async {
+  void sendOtppassword() async {
     var data = {
-      'kode_otp': _otpcontroller.text,
+      'email': _forget_passwordcontroller.text,
     };
 
     print(data);
 
-    var res = await Network().postData('/send-otp', data);
+    var res = await Network().postData('/send-rest-password', data);
     var body = json.decode(res.body);
     print(res.body);
 
     if (body['success']) {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: ((context) => BottomNavigationBarExample())));
+          builder: ((context) =>
+              Otp_password(email: _forget_passwordcontroller.text))));
 
       print("sukses");
     } else {}
@@ -59,10 +61,9 @@ class _OtpState extends State<Otp> {
                   color: Colors.white,
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Text(
-                      'OTP Verification',
+                      'Forget Password',
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
@@ -71,12 +72,11 @@ class _OtpState extends State<Otp> {
                     Form(
                         key: _formKey,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 20),
                             Container(
                               child: TextFormField(
-                                  controller: _otpcontroller,
+                                  controller: _forget_passwordcontroller,
                                   decoration: InputDecoration(
                                     contentPadding:
                                         EdgeInsetsDirectional.fromSTEB(
@@ -109,7 +109,7 @@ class _OtpState extends State<Otp> {
                                       ),
                                       borderRadius: BorderRadius.circular(40),
                                     ),
-                                    labelText: 'kode OTP',
+                                    labelText: 'Email Address',
                                     filled: true,
                                     fillColor: Color(0xffd9d9d9),
                                   ),
@@ -126,12 +126,11 @@ class _OtpState extends State<Otp> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
-                                    sendOtp();
+                                    sendOtppassword();
                                   }
-                                  // Kode untuk menangani submit form
                                 },
                                 child: Text(
-                                  'Verify',
+                                  'Kirim',
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w700),

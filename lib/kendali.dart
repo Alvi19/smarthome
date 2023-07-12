@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
-// import 'package:aplikasi_iot/home.dart';
 import 'package:aplikasi_iot/home.dart';
 import 'package:aplikasi_iot/monitoring.dart';
 import 'package:aplikasi_iot/network/api.dart';
@@ -10,7 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mqtt_client/mqtt_browser_client.dart';
+// import 'package:aplikasi_iot/home.dart';
+// import 'package:mqtt_client/mqtt_browser_client.dart';
 
 var connected = false;
 
@@ -28,9 +27,9 @@ var client_id =
     'app-iot-kendali' + DateTime.now().millisecondsSinceEpoch.toString();
 
 // Web
-final client = MqttBrowserClient('ws://test.mosquitto.org/mqtt', client_id);
+// final client = MqttBrowserClient('ws://test.mosquitto.org/mqtt', client_id);
 // Apk
-// final client = MqttServerClient('test.mosquitto.org', client_id);
+final client = MqttServerClient('test.mosquitto.org', client_id);
 
 var pongCount = 0; // Pong counter
 

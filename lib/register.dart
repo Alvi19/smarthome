@@ -10,13 +10,13 @@ class RegistrationPage extends StatefulWidget {
   _RegistrationPageState createState() => _RegistrationPageState();
 }
 
-final _formKey = GlobalKey<FormState>();
-final _emailcontroller = TextEditingController(text: '');
-final _namacontroller = TextEditingController(text: '');
-final _passwordcontroller = TextEditingController(text: '');
-final _confirmpasswordcontroller = TextEditingController(text: '');
-
 class _RegistrationPageState extends State<RegistrationPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailcontroller = TextEditingController(text: '');
+  final _namacontroller = TextEditingController(text: '');
+  final _passwordcontroller = TextEditingController(text: '');
+  final _confirmpasswordcontroller = TextEditingController(text: '');
+
   @override
   Widget build(BuildContext context) {
     void _register() async {

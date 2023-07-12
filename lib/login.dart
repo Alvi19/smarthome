@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:aplikasi_iot/Register.dart';
+import 'package:aplikasi_iot/forget_password.dart';
 import 'package:aplikasi_iot/home.dart';
 import 'package:aplikasi_iot/monitoring.dart';
 import 'package:aplikasi_iot/scanner.dart';
@@ -12,11 +13,11 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
-final _formKey = GlobalKey<FormState>();
-final _emailcontroller = TextEditingController(text: '');
-final _passwordcontroller = TextEditingController(text: '');
-
 class _LoginState extends State<Login> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailcontroller = TextEditingController(text: '');
+  final _passwordcontroller = TextEditingController(text: '');
+
   @override
   void _login() async {
     var data = {
@@ -176,7 +177,32 @@ class _LoginState extends State<Login> {
                                 obscureText: true,
                                 validator: (value) =>
                                     value!.isEmpty ? "Perlu di isi" : null),
-                            SizedBox(height: 25),
+                            SizedBox(height: 10),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: ((context) =>
+                                            Forget_password())));
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(right: 10),
+                                    child: Text(
+                                      'Lupa Password',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.blue),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 10),
                             Container(
                               width: 150,
                               height: 50,

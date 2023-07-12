@@ -1,35 +1,45 @@
 import 'dart:convert';
 
 import 'package:aplikasi_iot/home.dart';
+import 'package:aplikasi_iot/login.dart';
 import 'package:aplikasi_iot/network/api.dart';
+import 'package:aplikasi_iot/otp_password.dart';
 import 'package:flutter/material.dart';
 
-class Otp extends StatefulWidget {
-  const Otp({Key? key}) : super(key: key);
+class Reset_password extends StatefulWidget {
+  final String email;
+  final String otp;
+
+  const Reset_password({Key? key, required this.email, required this.otp})
+      : super(key: key);
 
   @override
-  _OtpState createState() => _OtpState();
+  _Reset_password createState() => _Reset_password();
 }
 
-class _OtpState extends State<Otp> {
+class _Reset_password extends State<Reset_password> {
   final _formKey = GlobalKey<FormState>();
-  final _otpcontroller = TextEditingController(text: '');
+  final _passwordcontroller = TextEditingController(text: '');
+  final _confirmpasswordcontroller = TextEditingController(text: '');
 
   @override
-  void sendOtp() async {
+  void sendPassword() async {
     var data = {
-      'kode_otp': _otpcontroller.text,
+      'password': _passwordcontroller.text,
+      'confirm_password': _confirmpasswordcontroller.text,
+      'email': widget.email,
+      'otp': widget.otp,
     };
 
     print(data);
 
-    var res = await Network().postData('/send-otp', data);
+    var res = await Network().postData('/send-rest-password', data);
     var body = json.decode(res.body);
     print(res.body);
 
     if (body['success']) {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: ((context) => BottomNavigationBarExample())));
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: ((context) => Login())));
 
       print("sukses");
     } else {}
@@ -59,10 +69,9 @@ class _OtpState extends State<Otp> {
                   color: Colors.white,
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Text(
-                      'OTP Verification',
+                      'Forget Password',
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
@@ -71,12 +80,11 @@ class _OtpState extends State<Otp> {
                     Form(
                         key: _formKey,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 20),
                             Container(
                               child: TextFormField(
-                                  controller: _otpcontroller,
+                                  controller: _passwordcontroller,
                                   decoration: InputDecoration(
                                     contentPadding:
                                         EdgeInsetsDirectional.fromSTEB(
@@ -109,13 +117,54 @@ class _OtpState extends State<Otp> {
                                       ),
                                       borderRadius: BorderRadius.circular(40),
                                     ),
-                                    labelText: 'kode OTP',
+                                    labelText: 'Password',
                                     filled: true,
                                     fillColor: Color(0xffd9d9d9),
                                   ),
                                   validator: (value) =>
                                       value!.isEmpty ? "Perlu di isi" : null),
                             ),
+                            SizedBox(height: 25),
+                            TextFormField(
+                                controller: _confirmpasswordcontroller,
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsetsDirectional.fromSTEB(
+                                          20, 20, 20, 20),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0xffd9d9d9),
+                                      width: 0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.blue,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  labelText: 'Konfirmasi Password',
+                                  filled: true,
+                                  fillColor: Color(0xffd9d9d9),
+                                ),
+                                validator: (value) =>
+                                    value!.isEmpty ? "Perlu di isi" : null),
                             SizedBox(height: 25),
                             Container(
                               width: 150,
@@ -126,12 +175,11 @@ class _OtpState extends State<Otp> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
-                                    sendOtp();
+                                    sendPassword();
                                   }
-                                  // Kode untuk menangani submit form
                                 },
                                 child: Text(
-                                  'Verify',
+                                  'Kirim',
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w700),

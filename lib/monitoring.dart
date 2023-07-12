@@ -10,11 +10,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:mqtt_client/mqtt_browser_client.dart';
+// import 'package:mqtt_client/mqtt_browser_client.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 // import 'package:url_launcher/url_launcher_string.dart';
 
 var connected = false;
@@ -35,9 +35,9 @@ var client_id =
     'app-iot-monitoring' + DateTime.now().millisecondsSinceEpoch.toString();
 
 // Web
-final client = MqttBrowserClient('ws://test.mosquitto.org/mqtt', client_id);
+// final client = MqttBrowserClient('ws://test.mosquitto.org/mqtt', client_id);
 // Apk
-// final client = MqttServerClient('test.mosquitto.org', client_id);
+final client = MqttServerClient('test.mosquitto.org', client_id);
 
 var pongCount = 0; // Pong counter
 
@@ -336,6 +336,7 @@ class _homeState extends State<home> {
                                 style: ElevatedButton.styleFrom(
                                     primary: Colors.green),
                                 onPressed: () {
+                                  launch('tel: 113');
                                   // _makePhoneCall('tel:113');
                                   // final url = Uri(scheme: 'tel', path: '113');
                                   // await canLaunchUrl(

@@ -2,34 +2,40 @@ import 'dart:convert';
 
 import 'package:aplikasi_iot/home.dart';
 import 'package:aplikasi_iot/network/api.dart';
+import 'package:aplikasi_iot/reset.password.dart';
 import 'package:flutter/material.dart';
 
-class Otp extends StatefulWidget {
-  const Otp({Key? key}) : super(key: key);
+class Otp_password extends StatefulWidget {
+  final String email;
+  const Otp_password({Key? key, required this.email}) : super(key: key);
 
   @override
-  _OtpState createState() => _OtpState();
+  _OtpPasswordState createState() => _OtpPasswordState();
 }
 
-class _OtpState extends State<Otp> {
+class _OtpPasswordState extends State<Otp_password> {
   final _formKey = GlobalKey<FormState>();
   final _otpcontroller = TextEditingController(text: '');
 
   @override
-  void sendOtp() async {
+  void sendOtppassword() async {
     var data = {
-      'kode_otp': _otpcontroller.text,
+      'otp': _otpcontroller.text,
+      'email': widget.email,
     };
 
     print(data);
 
-    var res = await Network().postData('/send-otp', data);
+    var res = await Network().postData('/send-rest-password', data);
     var body = json.decode(res.body);
     print(res.body);
 
     if (body['success']) {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: ((context) => BottomNavigationBarExample())));
+          builder: ((context) => Reset_password(
+                email: widget.email,
+                otp: _otpcontroller.text,
+              ))));
 
       print("sukses");
     } else {}
@@ -126,7 +132,7 @@ class _OtpState extends State<Otp> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
-                                    sendOtp();
+                                    sendOtppassword();
                                   }
                                   // Kode untuk menangani submit form
                                 },
