@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:aplikasi_iot/login.dart';
+import 'package:aplikasi_iot/monitoring.dart';
 import 'package:aplikasi_iot/network/api.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,8 +14,26 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  var name = '';
+  var email = '';
+
+  void get_data() async {
+    try {
+      var res = await Network().getData("/user");
+      var body = jsonDecode(res.body);
+
+      print(body);
+
+      setState(() {
+        name = body['name'];
+        email = body['email'];
+      });
+    } catch (e) {}
+  }
+
   @override
   Widget build(BuildContext context) {
+    get_data();
     return Container(
       padding: EdgeInsets.only(top: 80),
       child: Column(
@@ -31,7 +52,7 @@ class _ProfileState extends State<Profile> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Nama',
+                        name,
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
@@ -41,7 +62,7 @@ class _ProfileState extends State<Profile> {
                       //   height: 1,
                       // ),
                       Text(
-                        'Email',
+                        email,
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,

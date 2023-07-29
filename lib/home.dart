@@ -28,10 +28,10 @@ class _BottomNavigationBarExampleState
   static const List<Widget> _widgetOptions = <Widget>[
     home(),
     Kendali(),
-    Text(
-      'History',
-      style: optionStyle,
-    ),
+    // Text(
+    //   'History',
+    //   style: optionStyle,
+    // ),
     Profile(),
   ];
 
@@ -60,30 +60,29 @@ class _BottomNavigationBarExampleState
       bottomNavigationBar: BottomNavigationBar(
         unselectedIconTheme: IconThemeData(color: Colors.white70),
         selectedIconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: Colors.blue,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Monitoring',
-            backgroundColor: Colors.blue,
           ),
           BottomNavigationBarItem(
             icon: Icon(SliderIcon.sliders),
             label: 'Control',
-            backgroundColor: Colors.blue,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'History',
-            backgroundColor: Colors.blue,
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.history),
+          //   label: 'History',
+          //   backgroundColor: Colors.blue,
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
-            backgroundColor: Colors.blue,
           ),
         ],
         currentIndex: selectedIndex,
         selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.blue,
         onTap: _onItemTapped,
       ),
     );
