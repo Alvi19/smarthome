@@ -163,8 +163,11 @@ class _Reset_password extends State<Reset_password> {
                                   filled: true,
                                   fillColor: Color(0xffd9d9d9),
                                 ),
-                                validator: (value) =>
-                                    value!.isEmpty ? "Perlu di isi" : null),
+                                validator: (value) => value!.isEmpty
+                                    ? "Perlu di isi"
+                                    : value! != _passwordcontroller.text
+                                        ? "Password tidak sama"
+                                        : null),
                             SizedBox(height: 25),
                             Container(
                               width: 150,

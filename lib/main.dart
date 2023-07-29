@@ -16,6 +16,8 @@ import 'package:flutter_web_frame/flutter_web_frame.dart';
 import 'network/api.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:firebase_messaging_web/firebase_messaging_web.dart';
 
 void main() {
   runApp(MyApp());
@@ -85,10 +87,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    firebase();
+    // firebase();
     return FlutterWebFrame(
       builder: (context) {
         return MaterialApp(
+          builder: FToastBuilder(),
           title: 'Smarthome',
           theme: ThemeData(
             scaffoldBackgroundColor: Colors.white,

@@ -54,10 +54,6 @@ final connMess = MqttConnectMessage()
     .startClean() // Non persistent session for testing
     .withWillQos(MqttQos.atLeastOnce);
 
-// void _makePhoneCall(String phoneNumber) {
-//   js.context.callMethod('open', [phoneNumber]);
-// }
-
 var suksesGetPerangkat2 = false;
 
 class _homeState extends State<home> {
@@ -273,7 +269,7 @@ class _homeState extends State<home> {
                               Padding(
                                 padding: const EdgeInsets.all(13),
                                 child: Text(
-                                  kebakaran ? 'ON' : 'OFF',
+                                  kebakaran ? 'BAHAYA' : 'AMAN',
                                   style: TextStyle(
                                       color: kebakaran
                                           ? Colors.white

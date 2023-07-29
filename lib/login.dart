@@ -5,6 +5,7 @@ import 'package:aplikasi_iot/home.dart';
 import 'package:aplikasi_iot/monitoring.dart';
 import 'package:aplikasi_iot/scanner.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'network/api.dart';
 
@@ -17,6 +18,17 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _emailcontroller = TextEditingController(text: '');
   final _passwordcontroller = TextEditingController(text: '');
+
+  late FToast fToast;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fToast = FToast();
+
+    fToast.init(context);
+  }
 
   @override
   void _login() async {
@@ -31,7 +43,7 @@ class _LoginState extends State<Login> {
     var body = json.decode(res.body);
     print(res.body);
 
-    if (body['success']) {
+    if (body['success'] != null) {
       SharedPreferences localStorage;
       localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', body['data']['token'].toString());
@@ -42,7 +54,31 @@ class _LoginState extends State<Login> {
             builder: ((context) => BottomNavigationBarExample())));
 
       print("sukses");
-    } else {}
+    } else {
+      Widget toast = Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25.0),
+          color: Colors.redAccent,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.close),
+            SizedBox(
+              width: 12.0,
+            ),
+            Text("Email atau password salah"),
+          ],
+        ),
+      );
+
+      fToast.showToast(
+        child: toast,
+        gravity: ToastGravity.BOTTOM,
+        toastDuration: Duration(seconds: 2),
+      );
+    }
   }
 
   void isLogin() async {

@@ -252,8 +252,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   fillColor: Color(0xffd9d9d9),
                                 ),
                                 obscureText: true,
-                                validator: (value) =>
-                                    value!.isEmpty ? "Perlu di isi" : null),
+                                validator: (value) => value!.isEmpty
+                                    ? "Perlu di isi"
+                                    : value! != _passwordcontroller.text
+                                        ? "Password  tidak sama"
+                                        : null),
                             SizedBox(height: 25),
                             Container(
                               width: 150,

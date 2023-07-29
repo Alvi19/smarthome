@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:aplikasi_iot/home.dart';
 import 'package:aplikasi_iot/network/api.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Otp extends StatefulWidget {
   const Otp({Key? key}) : super(key: key);
@@ -14,6 +15,17 @@ class Otp extends StatefulWidget {
 class _OtpState extends State<Otp> {
   final _formKey = GlobalKey<FormState>();
   final _otpcontroller = TextEditingController(text: '');
+
+  late FToast fToast;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fToast = FToast();
+
+    fToast.init(context);
+  }
 
   @override
   void sendOtp() async {
@@ -27,12 +39,36 @@ class _OtpState extends State<Otp> {
     var body = json.decode(res.body);
     print(res.body);
 
-    if (body['success']) {
+    if (body['success'] != null) {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: ((context) => BottomNavigationBarExample())));
 
       print("sukses");
-    } else {}
+    } else {
+      Widget toast = Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25.0),
+          color: Colors.redAccent,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.close),
+            SizedBox(
+              width: 12.0,
+            ),
+            Text("OTP salah"),
+          ],
+        ),
+      );
+
+      fToast.showToast(
+        child: toast,
+        gravity: ToastGravity.BOTTOM,
+        toastDuration: Duration(seconds: 2),
+      );
+    }
   }
 
   Widget build(BuildContext context) {
