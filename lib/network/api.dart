@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Network {
+  // final String _url = 'http://192.168.12.10:8000/api';
   final String _url = 'https://api.alviridho.my.id/api';
 
   // 192.168.1.2 is my IP, change with your IP address
